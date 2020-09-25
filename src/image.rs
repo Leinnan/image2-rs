@@ -401,7 +401,8 @@ pub trait Image<T: Type, C: Color>: Sized + Sync + Send {
             }
         });
     }
-
+    
+#[cfg(feature = "transforms")]
     fn hash(&self) -> Hash {
         let mut small = ImageBuf::new(8, 8);
         crate::transform::resize(&mut small, self, 8, 8);

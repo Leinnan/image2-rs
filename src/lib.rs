@@ -48,6 +48,7 @@ mod image_ref;
 pub mod io;
 pub mod kernel;
 mod pixel;
+#[cfg(feature = "transforms")]
 pub mod transform;
 mod ty;
 

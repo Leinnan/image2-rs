@@ -1,3 +1,4 @@
+#[cfg(feature = "transforms")]
 use crate::{Color, Filter, Image, Type};
 use euclid;
 

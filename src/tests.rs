@@ -65,6 +65,7 @@ fn test_invert() {
     write("test/test-invert.jpg", &dest).unwrap();
 }
 
+#[cfg(feature = "transforms")]
 #[test]
 fn test_hash() {
     let a: ImageBuf<f32, Rgb> = read("test/test.jpg").unwrap();
@@ -116,7 +117,7 @@ fn test_diff() {
     assert!(image == image2);
     write("test/test-diff.png", &image2).unwrap()
 }
-
+#[cfg(feature = "transforms")]
 #[test]
 fn test_colorspace() {
     let image: ImageBuf<u8, Rgb> = read("test/test.jpg").unwrap();

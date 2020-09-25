@@ -3,6 +3,7 @@ use std::ops;
 use crate::{Color, Type};
 
 pub mod colorspace {
+    #[cfg(feature = "transforms")]
     pub use palette::*;
 }
 
@@ -51,7 +52,7 @@ pub trait Pixel<'a, T: Type, C: Color>: AsRef<[T]> {
     fn iter(&self) -> std::slice::Iter<T> {
         self.as_ref().iter()
     }
-
+    #[cfg(feature = "transforms")]
     fn to_rgb(&self) -> colorspace::LinSrgb {
         let data = self.as_ref();
         palette::LinSrgb::new(
@@ -60,11 +61,11 @@ pub trait Pixel<'a, T: Type, C: Color>: AsRef<[T]> {
             data[2].to_f() as f32,
         )
     }
-
+    #[cfg(feature = "transforms")]
     fn from_rgb(px: colorspace::rgb::Rgb) -> PixelVec<f64> {
         PixelVec::new(px.red as f64, px.green as f64, px.blue as f64, 1.0)
     }
-
+    #[cfg(feature = "transforms")]
     fn to_rgba(&self) -> colorspace::LinSrgba {
         let data = self.as_ref();
         palette::LinSrgba::new(
@@ -74,7 +75,7 @@ pub trait Pixel<'a, T: Type, C: Color>: AsRef<[T]> {
             data[3].to_f() as f32,
         )
     }
-
+    #[cfg(feature = "transforms")]
     fn from_rgba(px: colorspace::rgb::Rgba) -> PixelVec<f64> {
         PixelVec::new(
             px.red as f64,
@@ -83,29 +84,29 @@ pub trait Pixel<'a, T: Type, C: Color>: AsRef<[T]> {
             px.alpha as f64,
         )
     }
-
+    #[cfg(feature = "transforms")]
     fn to_luma(&self) -> colorspace::LinLuma {
         let data = self.as_ref();
         palette::luma::Luma::new(data[0].to_f() as f32)
     }
-
+    #[cfg(feature = "transforms")]
     fn from_luma(px: colorspace::luma::Luma) -> PixelVec<f64> {
         PixelVec::new_gray(px.luma as f64)
     }
-
+    #[cfg(feature = "transforms")]
     fn to_hsv(&self) -> colorspace::Hsv {
         colorspace::Hsv::from(self.to_rgb())
     }
-
+    #[cfg(feature = "transforms")]
     fn from_hsv(px: colorspace::Hsv) -> PixelVec<f64> {
         let px = colorspace::rgb::Rgb::from(px);
         Self::from_rgb(px)
     }
-
+    #[cfg(feature = "transforms")]
     fn to_lab(&self) -> colorspace::Lab {
         colorspace::Lab::from(self.to_rgb())
     }
-
+    #[cfg(feature = "transforms")]
     fn from_lab(px: colorspace::Lab) -> PixelVec<f64> {
         let px = colorspace::rgb::Rgb::from(px);
         Self::from_rgb(px)

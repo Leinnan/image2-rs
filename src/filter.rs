@@ -1,3 +1,4 @@
+#[cfg(feature = "filter")]
 use crate::color::Color;
 use crate::image::Image;
 use crate::ty::Type;

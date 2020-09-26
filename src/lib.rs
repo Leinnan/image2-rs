@@ -38,6 +38,7 @@ mod tests;
 #[macro_use]
 pub mod image;
 #[macro_use]
+#[cfg(feature = "filter")]
 pub mod filter;
 pub mod color;
 mod error;
@@ -46,6 +47,7 @@ mod image_ptr;
 mod image_ref;
 #[cfg(feature = "io")]
 pub mod io;
+#[cfg(feature = "filter")]
 pub mod kernel;
 mod pixel;
 #[cfg(feature = "transforms")]
@@ -54,11 +56,13 @@ mod ty;
 
 pub use self::color::{Color, Gray, Rgb, Rgba};
 pub use self::error::Error;
+#[cfg(feature = "filter")]
 pub use self::filter::Filter;
 pub use self::image::{Convert, Diff, Hash, Image};
 pub use self::image_buf::ImageBuf;
 pub use self::image_ptr::{Free, ImagePtr};
 pub use self::image_ref::ImageRef;
+#[cfg(feature = "filter")]
 pub use self::kernel::Kernel;
 pub use self::pixel::{colorspace, Pixel, PixelMut, PixelVec};
 pub use self::ty::Type;

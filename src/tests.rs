@@ -2,8 +2,10 @@
 #![cfg(feature = "io")]
 
 use crate::color::{Gray, Rgb};
+#[cfg(feature = "filter")]
 use crate::filter::{Filter, Invert, ToGrayscale};
 use crate::io::{magick, read, write};
+#[cfg(feature = "filter")]
 use crate::kernel::{gaussian_5x5, sobel, Kernel};
 use crate::{Image, ImageBuf, Pixel};
 
@@ -19,7 +21,7 @@ fn timer<F: FnMut()>(name: &str, mut f: F) {
         t.as_secs() as f64 + (t.subsec_millis() as f64 * 0.001)
     )
 }
-
+#[cfg(feature = "filter")]
 #[test]
 fn test_image_buffer_new() {
     let mut image: ImageBuf<u8, Rgb> = ImageBuf::new(1000, 1000);
@@ -48,7 +50,7 @@ fn test_read_write_magick() {
     let b: ImageBuf<u16, Rgb> = magick::read("test/test-read-write-magick1.png").unwrap();
     magick::write("test/test-read-write-magick2.png", &b).unwrap();
 }
-
+#[cfg(feature = "filter")]
 #[test]
 fn test_to_grayscale() {
     let image: ImageBuf<f32, Rgb> = read("test/test.jpg").unwrap();
@@ -56,7 +58,7 @@ fn test_to_grayscale() {
     timer("ToGrayscale", || ToGrayscale.eval(&mut dest, &[&image]));
     write("test/test-grayscale.jpg", &dest).unwrap();
 }
-
+#[cfg(feature = "filter")]
 #[test]
 fn test_invert() {
     let image: ImageBuf<f32, Rgb> = read("test/test.jpg").unwrap();
@@ -78,6 +80,7 @@ fn test_hash() {
     assert!(c.hash().diff(&a.hash()) != 0);
 }
 
+#[cfg(feature = "filter")]
 #[test]
 fn test_kernel() {
     let image: ImageBuf<f32, Gray> = read("test/test.jpg").unwrap();
@@ -86,7 +89,7 @@ fn test_kernel() {
     timer("Kernel", || k.eval(&mut dest, &[&image]));
     write("test/test-simple-kernel.jpg", &dest).unwrap();
 }
-
+#[cfg(feature = "filter")]
 #[test]
 fn test_gaussian_blur() {
     let image: ImageBuf<f32, Rgb> = read("test/test.jpg").unwrap();
@@ -95,7 +98,7 @@ fn test_gaussian_blur() {
     timer("Gaussian blur", || k.eval(&mut dest, &[&image]));
     write("test/test-gaussian-blur.jpg", &dest).unwrap();
 }
-
+#[cfg(feature = "filter")]
 #[test]
 fn test_sobel() {
     let image: ImageBuf<f32, Gray> = read("test/test.jpg").unwrap();

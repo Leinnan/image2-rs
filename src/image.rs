@@ -1,4 +1,5 @@
 use crate::color::{Bgr, Color, Gray, Rgb, Rgba};
+#[cfg(feature = "filter")]
 use crate::filter::{AlphaBlend, Filter, SwapChannel, ToColor, ToGrayscale};
 use crate::image_buf::ImageBuf;
 use crate::image_ptr::{Free, ImagePtr};
@@ -450,49 +451,49 @@ pub trait Image<T: Type, C: Color>: Sized + Sync + Send {
 pub trait Convert<FromType: Type, FromColor: Color, ToType: Type, ToColor: Color> {
     fn convert(&self, to: &mut impl Image<ToType, ToColor>);
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Rgb>> Convert<T, Rgb, U, Rgba> for I {
     fn convert(&self, to: &mut impl Image<U, Rgba>) {
         ToColor.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Rgba>> Convert<T, Rgba, U, Rgb> for I {
     fn convert(&self, to: &mut impl Image<U, Rgb>) {
         AlphaBlend.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Rgb>> Convert<T, Rgb, U, Gray> for I {
     fn convert(&self, to: &mut impl Image<U, Gray>) {
         ToGrayscale.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Rgba>> Convert<T, Rgba, U, Gray> for I {
     fn convert(&self, to: &mut impl Image<U, Gray>) {
         ToGrayscale.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Gray>> Convert<T, Gray, U, Rgb> for I {
     fn convert(&self, to: &mut impl Image<U, Rgb>) {
         ToColor.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Gray>> Convert<T, Gray, U, Rgba> for I {
     fn convert(&self, to: &mut impl Image<U, Rgba>) {
         ToColor.eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Rgb>> Convert<T, Rgb, U, Bgr> for I {
     fn convert(&self, to: &mut impl Image<U, Bgr>) {
         SwapChannel(0, 2).eval(to, &[self]);
     }
 }
-
+#[cfg(feature = "filter")]
 impl<T: Type, U: Type, I: Image<T, Bgr>> Convert<T, Bgr, U, Rgb> for I {
     fn convert(&self, to: &mut impl Image<U, Rgb>) {
         SwapChannel(0, 2).eval(to, &[self]);

@@ -1,9 +1,12 @@
+#[cfg(feature = "filter")]
+
 use std::f64;
 use std::ops;
 
 use lazy_static::lazy_static;
 
 use crate::color::Color;
+#[cfg(feature = "filter")]
 use crate::filter::Filter;
 use crate::image::Image;
 use crate::ty::Type;
@@ -62,7 +65,7 @@ macro_rules! kernel_from {
 }
 
 kernel_from!(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,);
-
+#[cfg(feature = "filter")]
 impl Filter for Kernel {
     fn compute_at<T: Type, C: Color, I: Image<T, C>>(
         &self,
@@ -175,7 +178,7 @@ lazy_static! {
         ]
     };
 }
-
+#[cfg(feature = "filter")]
 macro_rules! op {
     ($name:ident, $fx:ident, $f:expr) => {
         pub struct $name {
@@ -219,29 +222,37 @@ macro_rules! op {
         }
     };
 }
-
+#[cfg(feature = "filter")]
 op!(Add, add, |a, b| a + b);
+#[cfg(feature = "filter")]
 op!(Sub, sub, |a, b| a - b);
+#[cfg(feature = "filter")]
 op!(Mul, mul, |a, b| a * b);
+#[cfg(feature = "filter")]
 op!(Div, div, |a, b| a / b);
+#[cfg(feature = "filter")]
 op!(Rem, rem, |a, b| a % b);
 
+#[cfg(feature = "filter")]
 pub fn sobel() -> Add {
     SOBEL_X.clone() + SOBEL_Y.clone()
 }
 
+#[cfg(feature = "filter")]
 pub fn gaussian_3x3() -> Kernel {
     GAUSSIAN_3X3.clone()
 }
 
+#[cfg(feature = "filter")]
 pub fn gaussian_5x5() -> Kernel {
     GAUSSIAN_5X5.clone()
 }
 
+#[cfg(feature = "filter")]
 pub fn gaussian_7x7() -> Kernel {
     GAUSSIAN_7X7.clone()
 }
-
+#[cfg(feature = "filter")]
 pub fn gaussian_9x9() -> Kernel {
     GAUSSIAN_9X9.clone()
 }

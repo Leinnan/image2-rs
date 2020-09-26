@@ -26,7 +26,7 @@ serde = {version = "1", optional = true, features=["derive"]}
 cc = "1"
 
 [features]
-default = ["parallel", "io","transforms"]
+default = ["io"]
 io = []
 v4l = ["rscam"]
 ser = ["serde", "palette/serde"]
